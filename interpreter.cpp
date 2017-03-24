@@ -186,7 +186,7 @@ void Interpreter::StoreSymbol(std::string input, Expression *node)
 	else if (input == "line")
 		node->Node.type = Line;
 	else if (input == "arc")
-		node->Node.type = Arc;
+		node->Node.type = ARC;
 	else
 		node->Node.type = Symbol;
 	node->Node.string_value = input;

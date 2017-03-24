@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <tuple>
-enum AtomType { None, Bool, Symbol, Value, Point, Line, Arc };
+enum AtomType { None, Bool, Symbol, Value, Point, Line, ARC };
 
 class Expression{
 public:

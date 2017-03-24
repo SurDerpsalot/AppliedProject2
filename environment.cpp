@@ -15,7 +15,7 @@ Environment::Environment()
 Expression Environment::Operations(Expression  Top)
 {
 	Expression temp;
-	if (Top.Node.type == Symbol)
+	if (Top.Node.type == Symbol || Top.Node.type == Point || Top.Node.type == Line || Top.Node.type == ARC)
 	{
 		try {
 			temp = ProType(Top);
@@ -994,7 +994,9 @@ Expression Environment::EnvArk(Expression Top)
 				TempRad = ProType(TempRad);
 			if (TempRad.Node.type == Value)
 			{
-				Done.Node.type = Arc;
+				TempStart = EnvPoint(TempStart);
+				TempCenter = EnvPoint(TempCenter);
+				Done.Node.type = ARC;
 				Done.Node.Start = TempStart.Node.Start;
 				Done.Node.EndCenter = TempCenter.Node.Start;
 				Done.Node.double_value = TempRad.Node.double_value;
@@ -1027,10 +1029,12 @@ Expression Environment::EnvLine(Expression Top)
 	Expression Done;
 	if (Top.Node.Branch.size() == 2)
 	{
-		TempStart = Top.Node.Branch.at(0);
-		TempEnd = Top.Node.Branch.at(1);
+		TempStart = *Top.Node.Branch.at(0);
+		TempEnd = *Top.Node.Branch.at(1);
 		if (TempStart.Node.type == Point && TempEnd.Node.type == Point)
 		{
+			TempStart = EnvPoint(TempStart);
+			TempEnd = EnvPoint(TempEnd);
 			Done.Node.type = Line;
 			Done.Node.Start = TempStart.Node.Start;
 			Done.Node.EndCenter = TempEnd.Node.Start;
@@ -1066,7 +1070,7 @@ Expression Environment::EnvPoint(Expression Top)
 		if (TempX.Node.type == Value && TempY.Node.type == Value)
 		{
 			Done.Node.type = Point;
-			Done.Node.Start = std::make_tuple(TempX.Node.double_value, TempY.Node.double_value);
+			Done.Node.Start = std::tuple<double,double> (TempX.Node.double_value, TempY.Node.double_value);
 			DrawMe.push_back(Done);
 		}
 	}
@@ -1081,14 +1085,7 @@ Expression Environment::EnvPoint(Expression Top)
 Expression Environment::EnvDraw(Expression Top)
 {
 	Expression Done;
-	if (Top.Node.Branch.size() >= 1)
-	{
-		throw InterpreterSemanticError("Error: Incorrect number of arguments for the draw function.");
-		Done = Error;
-	}
-	else
-	{
-		Done.Node.type = Symbol;
-		Done.Node.string_value = "none";
-	}
+	Done.Node.type = Symbol;
+	Done.Node.string_value = "none";
+	return Done;
 }
