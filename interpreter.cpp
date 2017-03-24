@@ -181,9 +181,16 @@ void Interpreter::StoreNum(std::string input, Expression * node)
 
 void Interpreter::StoreSymbol(std::string input, Expression *node)
 {
-	node->Node.type = Symbol;
+	if (input == "point")
+		node->Node.type = Point;
+	else if (input == "line")
+		node->Node.type == Line;
+	else if (input == "arc")
+		node->Node.type == Arc;
+	else
+		node->Node.type == Symbol;
 	node->Node.string_value = input;
-}
+}	
 
 void Interpreter::destroyTree(Expression* curLevel) {
 	if (curLevel != nullptr) {

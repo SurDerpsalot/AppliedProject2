@@ -37,15 +37,21 @@ Expression::Expression(const std::string & value) {
 	Node.string_value = value;
 }
 
+Expression::Expression(std::tuple<double,double> value) {
+
+}
+
+Expression::Expression(std::tuple<double,double> start, std::tuple<double,double> end) {
+
+}
+
+Expression::Expression(std::tuple<double,double> center, std::tuple<double,double> start, double angle) {
+
+}
+
+
+
 bool Expression::operator==(const Expression & exp) const noexcept 
 {
 	return (Node.type == exp.Node.type) && (Node.Branch.size() == exp.Node.Branch.size());
 }
-/*
-bool Expression::operator&&(const Expression & exp) const noexcept
-{
-	if ((Node.type == exp.Node.type) && (Node.bool_value == exp.Node.bool_value))
-		return true;
-	else
-		return false;
-}*/

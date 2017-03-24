@@ -96,6 +96,13 @@ void Environment::EnviroBuild()
 	Express.emplace("+", &Environment::EnvAdd);
 	Express.emplace("*", &Environment::EnvMult);
 	Express.emplace("/", &Environment::EnvDiv);
+	Express.emplace("sin", &Environment::EnvSin);
+	Express.emplace("cos", &Environment::EnvCos);
+	Express.emplace("arctan", &Environment::EnvArctan);
+	Express.emplace("arc", &Environment::EnvArk);
+	Express.emplace("line", &Environment::EnvLine);
+	Express.emplace("point", &Environment::EnvPoint);
+	Express.emplace("draw", &Environment::EnvDraw);
 }
 
 bool Environment::checkProcedure(Expression Target)
@@ -111,7 +118,11 @@ bool Environment::checkProcedure(Expression Target)
 		output = true;
 	else if ((Target.Node.string_value == "-") || (Target.Node.string_value == "*") || (Target.Node.string_value == "/"))
 		output = true;
-	else if ((Target.Node.string_value == "pi"))
+	else if ((Target.Node.string_value == "pi") || (Target.Node.string_value == "sin") || (Target.Node.string_value == "cos"))
+		output = true;
+	else if ((Target.Node.string_value == "arctan") || (Target.Node.string_value == "point") || (Target.Node.string_value == "line"))
+		output = true;
+	else if ((Target.Node.string_value == "arc") || (Target.Node.string_value == "draw"))
 		output = true;
 	else
 		output = false;
@@ -876,4 +887,35 @@ Expression Environment::EnvDiv(Expression Top)
 		return Error;
 	}
 	return Error;
+}
+
+Expression Environment::EnvSin(Expression Top)
+{
+
+}
+
+Expression Environment::EnvCos(Expression Top)
+{
+
+}
+
+Expression Environment::EnvArctan(Expression Top)
+{
+
+}
+Expression Environment::EnvArk(Expression Top)
+{
+
+}
+Expression Environment::EnvLine(Expression Top)
+{
+
+}
+Expression Environment::EnvPoint(Expression Top)
+{
+
+}
+Expression Environment::EnvDraw(Expression Top)
+{
+
 }

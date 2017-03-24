@@ -3,9 +3,11 @@
 #include "expression.hpp"
 #include <map>
 #include <math.h>
+#include <vector>
 #include "interpreter_semantic_error.hpp"
 class Environment {
 public:
+	std::vector<Expression> DrawMe;
 	typedef Expression(Environment::*FunctionPointer)(Expression);
 	typedef std::map<std::string, FunctionPointer > MAP;
 	Environment();
@@ -28,6 +30,13 @@ public:
 	Expression EnvGeq(Expression Top);
 	Expression EnvEq(Expression Top);
 	Expression EnvDiv(Expression Top);
+	Expression EnvSin(Expression Top);
+	Expression EnvCos(Expression Top);
+	Expression EnvArctan(Expression Top);
+	Expression EnvArk(Expression Top);
+	Expression EnvLine(Expression Top);
+	Expression EnvPoint(Expression Top);
+	Expression EnvDraw(Expression Top);
 private:
 	MAP Express;
 	Expression Error;
