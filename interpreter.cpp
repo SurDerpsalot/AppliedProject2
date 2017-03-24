@@ -184,11 +184,11 @@ void Interpreter::StoreSymbol(std::string input, Expression *node)
 	if (input == "point")
 		node->Node.type = Point;
 	else if (input == "line")
-		node->Node.type == Line;
+		node->Node.type = Line;
 	else if (input == "arc")
-		node->Node.type == Arc;
+		node->Node.type = Arc;
 	else
-		node->Node.type == Symbol;
+		node->Node.type = Symbol;
 	node->Node.string_value = input;
 }	
 

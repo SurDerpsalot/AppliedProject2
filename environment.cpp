@@ -976,19 +976,119 @@ Expression Environment::EnvArctan(Expression Top)
 	}
 	return Done;
 }
+
 Expression Environment::EnvArk(Expression Top)
 {
-
+	Expression TempStart;
+	Expression TempCenter;
+	Expression TempRad;
+	Expression Done;
+	if (Top.Node.Branch.size() == 3)
+	{
+		TempStart = *Top.Node.Branch.at(0);
+		TempCenter = *Top.Node.Branch.at(1);
+		TempRad = *Top.Node.Branch.at(2);
+		if (TempStart.Node.type == Point && TempCenter.Node.type == Point)
+		{
+			if (TempRad.Node.type == Symbol)
+				TempRad = ProType(TempRad);
+			if (TempRad.Node.type == Value)
+			{
+				Done.Node.type = Arc;
+				Done.Node.Start = TempStart.Node.Start;
+				Done.Node.EndCenter = TempCenter.Node.Start;
+				Done.Node.double_value = TempRad.Node.double_value;
+				DrawMe.push_back(Done);
+			}
+			else
+			{
+				throw InterpreterSemanticError("Error: No angle given for Arc");
+				Done = Error;
+			}
+		}
+		else
+		{
+			throw InterpreterSemanticError("Error: Start or Center points were not provided");
+			Done = Error;
+		}
+	}
+	else
+	{
+		throw InterpreterSemanticError("Error: Incorrect number of arguments for Arc creation.");
+		Done = Error;
+	}
+	return Done;
 }
+
 Expression Environment::EnvLine(Expression Top)
 {
-
+	Expression TempStart;
+	Expression TempEnd;
+	Expression Done;
+	if (Top.Node.Branch.size() == 2)
+	{
+		TempStart = Top.Node.Branch.at(0);
+		TempEnd = Top.Node.Branch.at(1);
+		if (TempStart.Node.type == Point && TempEnd.Node.type == Point)
+		{
+			Done.Node.type = Line;
+			Done.Node.Start = TempStart.Node.Start;
+			Done.Node.EndCenter = TempEnd.Node.Start;
+			DrawMe.push_back(Done);
+		}
+		else
+		{
+			throw InterpreterSemanticError("Error: Start or End points were not provided.");
+			Done = Error;
+		}
+	}
+	else
+	{
+		throw InterpreterSemanticError("Error: Incorrect number of arguments for Line creation.");
+		Done = Error;
+	}
+	return Done;
 }
+
 Expression Environment::EnvPoint(Expression Top)
 {
-
+	Expression TempX;
+	Expression TempY;
+	Expression Done;
+	if (Top.Node.Branch.size() == 2)
+	{
+		TempX = *Top.Node.Branch.at(0);
+		TempY = *Top.Node.Branch.at(1);
+		if (TempY.Node.type == Symbol)
+			TempY = ProType(TempY);
+		if (TempX.Node.type == Symbol)
+			TempX = ProType(TempX);
+		if (TempX.Node.type == Value && TempY.Node.type == Value)
+		{
+			Done.Node.type = Point;
+			Done.Node.Start = std::make_tuple(TempX.Node.double_value, TempY.Node.double_value);
+			DrawMe.push_back(Done);
+		}
+	}
+	else
+	{
+		throw InterpreterSemanticError("Error: Incorrect number of arguments for Point Creation.");
+		Done = Error;
+	}
+	return Done;
 }
+
 Expression Environment::EnvDraw(Expression Top)
 {
-
+	Expression Done;
+	if (Top.Node.Branch.size() >= 1)
+	{
+		throw InterpreterSemanticError("Error: Incorrect number of arguments for the draw function.");
+		Done = Error;
+	}
+	else
+	{
+		Done.Node.type = Symbol;
+		Done.Node.string_value = "none";
+	}
 }
