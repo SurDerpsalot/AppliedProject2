@@ -891,17 +891,90 @@ Expression Environment::EnvDiv(Expression Top)
 
 Expression Environment::EnvSin(Expression Top)
 {
-
+	Expression temp;
+	Expression Done;
+	if (Top.Node.Branch.size() == 1)
+	{
+		temp = *Top.Node.Branch.at(0);
+		if (temp.Node.type == Symbol)
+			temp = ProType(temp);
+		if (temp.Node.type == Value)
+		{
+			Done = temp;
+			Done.Node.double_value = sin(temp.Node.double_value);
+		}
+		else
+		{
+			throw InterpreterSemanticError("Error: Only Values can be passed into the sin function");
+			Done = Error;
+		}
+	}
+	else
+	{
+		throw InterpreterSemanticError("Error: Incorrect number of arguments for the sin function.");
+		Done = Error;
+	}
+	return Done;
 }
 
 Expression Environment::EnvCos(Expression Top)
 {
-
+	Expression temp;
+	Expression Done;
+	if (Top.Node.Branch.size() == 1)
+	{
+		temp = *Top.Node.Branch.at(0);
+		if (temp.Node.type == Symbol)
+			temp = ProType(temp);
+		if (temp.Node.type == Value)
+		{
+			Done = temp;
+			Done.Node.double_value = cos(temp.Node.double_value);
+		}
+		else
+		{
+			throw InterpreterSemanticError("Error: Only Values can be passed into the cos function");
+			Done = Error;
+		}
+	}
+	else
+	{
+		throw InterpreterSemanticError("Error: Incorrect number of arguments for the cos function.");
+		Done = Error;
+	}
+	return Done;
 }
 
 Expression Environment::EnvArctan(Expression Top)
 {
-
+	Expression tempXval;
+	Expression tempYval;
+	Expression Done;
+	if (Top.Node.Branch.size() == 2)
+	{
+		tempYval = *Top.Node.Branch.at(0);
+		tempXval = *Top.Node.Branch.at(1);
+		if (tempYval.Node.type == Symbol)
+			tempYval = ProType(tempYval);
+		if (tempXval.Node.type == Symbol)
+			tempXval= ProType(tempXval);
+		if (tempYval.Node.type == Value)
+		{
+			Done = tempYval;
+			Done.Node.double_value = atan2(tempYval.Node.double_value,tempXval.Node.double_value);
+		}
+		else
+		{
+			throw InterpreterSemanticError("Error: Only Values can be passed into the arctan function");
+			Done = Error;
+		}
+	}
+	else
+	{
+		throw InterpreterSemanticError("Error: Incorrect number of arguments for the arctan function.");
+		Done = Error;
+	}
+	return Done;
 }
 Expression Environment::EnvArk(Expression Top)
 {
