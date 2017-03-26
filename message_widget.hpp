@@ -7,6 +7,8 @@
 #include <QLabel>
 #include <QHBoxLayout>
 
+class QLineEdit;
+
 class MessageWidget :public QWidget {
 	Q_OBJECT
 
@@ -19,7 +21,8 @@ public slots:
 	// a public slot accepting an error message to display as selected text highlighted with a red background.
 	void error(QString message);
 	
-	
+private:
+	QLineEdit* mess = new QLineEdit(this);
 	//Provides read-only display of interpreter messages.
 };
 

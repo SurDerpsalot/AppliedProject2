@@ -5,6 +5,7 @@
 #include <QLayout>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+
 class CanvasWidget :public QWidget {
 
 public:
@@ -17,8 +18,8 @@ public slots:
 
 	//also read only stuff
 private:
-	QGraphicsScene  Paint = new QGraphicsScene;
-	QGraphicsView  canvas = new QGraphicsView(this);
+	QGraphicsScene*  Paint = new QGraphicsScene;
+	QGraphicsView* canvas = new QGraphicsView(this);
 };
 
 

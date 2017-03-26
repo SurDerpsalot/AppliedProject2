@@ -4,6 +4,11 @@
 #include <QLabel>
 #include <QWidget>
 #include <canvas_widget.hpp>
+#include <message_widget.hpp>
+#include <canvas_widget.hpp>
+#include <repl_widget.hpp>
+#include <QVBoxLayout>
+#include <qt_interpreter.hpp>
 
 class MainWindow : public QWidget {
 	Q_OBJECT

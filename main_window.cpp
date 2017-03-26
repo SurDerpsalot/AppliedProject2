@@ -1,23 +1,24 @@
 #include <main_window.hpp>
-#include <message_widget.hpp>
-#include <canvas_widget.hpp>
-#include <repl_widget.hpp>
 
 // Default construct a MainWindow
 MainWindow::MainWindow(QWidget * parent){
-	auto layout = new QVBoxLayout(this);
+	auto window = new QWidget(this);
+	auto layout = new QVBoxLayout(window);
 	auto message = new MessageWidget;
 	auto canvas = new CanvasWidget;
 	auto REPL = new REPLWidget;
-	//message->setObjectName("MessageLine");
-	this->setMinimumSize(600, 800);
-	canvas->setMinimumHeight(300);
-	canvas->setMinimumWidth(400);
+	auto interpret = new QtInterpreter;
+	connect(REPL, &REPLWidget::lineEntered, interpret, &QtInterpreter::parseAndEvaluate);
+	connect(interpret, &QtInterpreter::info,message, &MessageWidget::info);
+	connect(interpret, &QtInterpreter::error, message, &MessageWidget::error);
+	this->setMinimumSize(800, 600);
+	canvas->setMinimumHeight(500);
+	canvas->setMinimumWidth(800);
 	layout->addWidget(message);
 	layout->addWidget(canvas);
 	layout->addWidget(REPL);
-	layout->setAlignment(Qt::AlignCenter);
-	setLayout(layout);
+	window->setLayout(layout);
+	
 }
 
 // Default construct a MainWidow, using filename as the script file to attempt to preload
