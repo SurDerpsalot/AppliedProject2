@@ -13,9 +13,9 @@ void MessageWidget::error(QString message)
 {
 	mess->clear();
 	mess->setText(message);
-	//QPalette *Redhiglight = new QPalette(Qt::red);
-	//Redhiglight->setColor(QPalette::Highlight, Qt::red);
-	//mess->setPalette(*Redhiglight);
+	QPalette *Redhiglight = new QPalette(Qt::red);
+	Redhiglight->setColor(QPalette::Highlight, Qt::red);
+	mess->setPalette(*Redhiglight);
 	mess->selectAll();
 }
 

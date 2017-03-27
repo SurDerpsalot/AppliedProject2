@@ -6,7 +6,9 @@ Environment::Environment()
 	double store;
 	store = atan2(0, -1);
 	Expression pie(store);
+	Expression pie2(-store);
 	std::string pi;
+	std::string pi2;
 	pi = "pi";
 	Dictionary.emplace(pi, pie);
 	EnviroBuild();
@@ -122,7 +124,7 @@ bool Environment::checkProcedure(Expression Target)
 		output = true;
 	else if ((Target.Node.string_value == "arctan") || (Target.Node.string_value == "point") || (Target.Node.string_value == "line"))
 		output = true;
-	else if ((Target.Node.string_value == "arc") || (Target.Node.string_value == "draw"))
+	else if ((Target.Node.string_value == "arc") || (Target.Node.string_value == "draw") || (Target.Node.string_value == "-pi"))
 		output = true;
 	else
 		output = false;
@@ -325,6 +327,11 @@ Expression Environment::NonSpec(Expression Top)
 	Expression temp;
 	if (!checkProcedure(Top))
 	{
+		if (Top.Node.string_value == "-pi")
+		{
+			temp.Node.type = Value;
+			temp.Node.double_value = atan2(0, -1);
+		}
 		found = Dictionary.find(Top.Node.string_value);
 		if(found != Dictionary.end())
 			temp = Dictionary.at(Top.Node.string_value);
@@ -339,6 +346,11 @@ Expression Environment::NonSpec(Expression Top)
 		if (Top.Node.string_value == "pi")
 		{
 			Expression pie(atan2(0, -1));
+			temp = pie;
+		}
+		else if (Top.Node.string_value == "-pi")
+		{
+			Expression pie(-atan2(0, -1));
 			temp = pie;
 		}
 		else

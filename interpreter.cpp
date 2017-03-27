@@ -51,7 +51,11 @@ bool Interpreter::checkBasicInput(std::vector<token> & input)
 			}
 		}
 		else if (input.at(i) == ")")
+		{
 			ParaCount--;
+			if (ParaCount == 0 && i != input.size() - 1)
+				return false;
+		}
 	}
 	if (ParaCount == 0)
 	{
@@ -159,7 +163,7 @@ void Interpreter::StoreNum(std::string input, Expression * node)
 	{
 		if (num)
 		{
-			if (!isdigit(input[j]) && input[j] != '.')
+			if (!isdigit(input[j]) && input[j] != '.' && input[j] != 'e')
 			{
 				num = false;
 				break;
@@ -220,6 +224,10 @@ Expression Interpreter::eval()
 	}
 	catch (InterpreterSemanticError & ERR)
 	{
+		Expression notgood;
+		notgood.Node.type = Symbol;
+		notgood.Node.string_value = "Error";
+		result = notgood;
 		throw ERR;
 	}
 	

@@ -18,7 +18,7 @@ public slots:
 
 	//also read only stuff
 private:
-	QGraphicsScene*  Paint = new QGraphicsScene;
+	QGraphicsScene*  Paint = new QGraphicsScene(this);
 	QGraphicsView* canvas = new QGraphicsView(this);
 };
 

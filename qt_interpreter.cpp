@@ -11,7 +11,7 @@ void QtInterpreter::parseAndEvaluate(QString entry) {
 	bool worked = interp->parse(input);
 	if (!worked)
 	{
-		QString Err = "Error: failed to parse";
+		QString Err = "Error : Input failed to parse";
 		emit error(Err);
 	}
 	else
@@ -24,56 +24,31 @@ void QtInterpreter::parseAndEvaluate(QString entry) {
 		if (output.Node.type == Bool)
 		{
 			if (output.Node.bool_value)
-				out == "(True)";
+				out = "(True)";
 			else
-				out == "(False)";
+				out = "(False)";
 			emit info(out);
 		}
 		else if (output.Node.type == Value)
 		{
-			str.append("(");
-			str.append(std::to_string(output.Node.double_value));
-			str.append(")");
-			out == QString::fromStdString(str);
+			out = QString("(%1)").arg(output.Node.double_value);
 			emit info(out);
 		}
 		else if (output.Node.type == Point)
 		{
-			str.append("(");
-			str.append(std::to_string(std::get<0>(output.Node.Start)));
-			str.append(",");
-			str.append(std::to_string(std::get<1>(output.Node.Start)));
-			str.append(")");
-			out.fromStdString(str);
+			out = QString("(%1,%2)").arg(std::get<0>(output.Node.Start)).arg(std::get<1>(output.Node.Start));
 			emit info(out);
 		}
 		else if (output.Node.type == Line)
 		{
-			str.append("((");
-			str.append(std::to_string(std::get<0>(output.Node.Start)));
-			str.append(",");
-			str.append(std::to_string(std::get<1>(output.Node.Start)));
-			str.append("),(");
-			str.append(std::to_string(std::get<0>(output.Node.EndCenter)));
-			str.append(",");
-			str.append(std::to_string(std::get<1>(output.Node.EndCenter)));
-			str.append("))");
-			out.fromStdString(str);
+			out = QString("((%1,%2),(%3,%4))").arg(std::get<0>(output.Node.Start)).arg(std::get<1>(output.Node.Start))
+				.arg(std::get<0>(output.Node.EndCenter)).arg(std::get<1>(output.Node.EndCenter));
 			emit info(out);
 		}
 		else if (output.Node.type == ARC)
 		{
-			str.append("((");
-			str.append(std::to_string(std::get<0>(output.Node.Start)));
-			str.append(",");
-			str.append(std::to_string(std::get<1>(output.Node.Start)));
-			str.append("),(");
-			str.append(std::to_string(std::get<0>(output.Node.EndCenter)));
-			str.append(",");
-			str.append(std::to_string(std::get<1>(output.Node.EndCenter)));
-			str.append(") ");
-			str.append(std::to_string(output.Node.double_value));
-			out.fromStdString(str);
+			out = QString("((%1,%2),(%3,%4) %5)").arg(std::get<0>(output.Node.Start)).arg(std::get<1>(output.Node.Start))
+				.arg(std::get<0>(output.Node.EndCenter)).arg(std::get<1>(output.Node.EndCenter)).arg(output.Node.double_value);
 			emit info(out);
 		}
 		else if (output.Node.type == Symbol)
@@ -81,13 +56,14 @@ void QtInterpreter::parseAndEvaluate(QString entry) {
 			str.append("(");
 			str.append(output.Node.string_value);
 			str.append(")");
-			out.fromStdString(str);
+			out = QString::fromStdString(str);
 			emit info(out);
 		}
 		else
 		{
-			Err = "Error: We shouldn't be in this state.";
+			Err = "Error : We shouldn't be in this state.";
 			emit error(Err);
 		}		
+		
 	}
 }

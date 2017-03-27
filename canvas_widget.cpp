@@ -4,7 +4,9 @@
 
 // Default construct a CanvasWidget
 CanvasWidget::CanvasWidget(QWidget * parent) {
+	
 	QGraphicsView canvas(Paint);
+
 }
 
 // A public slot that accepts a signal in the form of a QGraphicsItem pointer containing an 

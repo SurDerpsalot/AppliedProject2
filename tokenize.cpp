@@ -3,7 +3,7 @@
 token StringFormat(token Unformatted)
 {
 	for (size_t i = 0; i < Unformatted.size(); i++)
-	{
+	{	
 		if (Unformatted.at(i) == '(')
 		{
 			Unformatted.insert((i+1), " ");
@@ -12,6 +12,7 @@ token StringFormat(token Unformatted)
 		}
 		else if (Unformatted.at(i) == ')')
 		{
+			
 			Unformatted.insert((i+1), " ");
 			Unformatted.insert(i, " ");
 			i++;
