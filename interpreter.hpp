@@ -28,11 +28,11 @@ public:
 	void Store(std::string input, Expression * node);
 	void StoreSymbol(std::string input, Expression *node);
 	void resetEnviro();
-
+	Environment Enviro;
 private:
 	Expression * Root;
 	Expression * CurLvl;
-	Environment Enviro;
+	
 };
 
 #endif

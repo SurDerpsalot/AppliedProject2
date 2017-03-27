@@ -23,7 +23,7 @@ void MessageWidget::info(QString message) {
 	mess->clear();
 	mess->setText(message);
 	
-	//QPalette *normalhighlight = new QPalette(Qt::white);
-	//normalhighlight->setColor(QPalette::Highlight, Qt::white);
-	//mess->setPalette(*normalhighlight);
+	QPalette *normalhighlight = new QPalette(Qt::white);
+	normalhighlight->setColor(QPalette::Highlight, Qt::blue);
+	mess->setPalette(*normalhighlight);
 }

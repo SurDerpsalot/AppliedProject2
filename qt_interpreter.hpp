@@ -4,16 +4,17 @@
 #include <QObject>
 #include <QWidget>
 #include <QGraphicsItem>
+#include <QGraphicsLineItem>
 #include <interpreter.hpp>
 #include <string>
-
-class interpreter;
 
 class QtInterpreter:public QObject {
 	Q_OBJECT
 public:
 	// Default construct an QtInterpreter with the default environment and an empty AST
 	QtInterpreter(QObject * parent = nullptr);
+	
+	void draw();
 
 	public slots:
 	// a public slot that accepts and expression string and parses/evaluates it
@@ -32,7 +33,7 @@ public:
 
 private:
 
-	Interpreter* interp = new Interpreter;
+	Interpreter* interp;
 
 };
 

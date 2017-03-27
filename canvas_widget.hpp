@@ -5,9 +5,9 @@
 #include <QLayout>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-
+#include <QHBoxLayout>
 class CanvasWidget :public QWidget {
-
+	Q_OBJECT
 public:
 	// Default construct a CanvasWidget
 	CanvasWidget(QWidget * parent = nullptr);
@@ -18,7 +18,7 @@ public slots:
 
 	//also read only stuff
 private:
-	QGraphicsScene*  Paint = new QGraphicsScene(this);
+	QGraphicsScene *scene = new QGraphicsScene(this);
 	QGraphicsView* canvas = new QGraphicsView(this);
 };
 

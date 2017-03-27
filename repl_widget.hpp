@@ -27,7 +27,7 @@ protected:
 private:
 	QLineEdit* REPL = new QLineEdit(this);
 	std::vector<QString> History;
-	size_t Index;
+	size_t Index =0;
 };
 
 #endif // !REPL_WIDGET_H

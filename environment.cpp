@@ -172,14 +172,16 @@ Expression Environment::EnvDef(Expression Top)
 			}
 			else
 			{
-				throw InterpreterSemanticError("Error: Attempting to assign value to a procedure");
 				temp = Error;
+				throw InterpreterSemanticError("Error: Attempting to assign value to a procedure");
+				
 			}
 		}
 		else
 		{
-			throw InterpreterSemanticError("Error: 'Define' cannot store into a non-symbol");
 			temp = Error;
+			throw InterpreterSemanticError("Error: 'Define' cannot store into a non-symbol");
+			
 		}
 	}
 	else
@@ -333,12 +335,12 @@ Expression Environment::NonSpec(Expression Top)
 			temp.Node.double_value = atan2(0, -1);
 		}
 		found = Dictionary.find(Top.Node.string_value);
-		if(found != Dictionary.end())
+		if (found != Dictionary.end())
 			temp = Dictionary.at(Top.Node.string_value);
 		else
 		{
-			throw InterpreterSemanticError("Error: Symbol not defined");
 			temp = Error;
+			throw InterpreterSemanticError("Error: Symbol not defined");
 		}
 	}
 	else 
@@ -995,10 +997,22 @@ Expression Environment::EnvArk(Expression Top)
 	Expression TempCenter;
 	Expression TempRad;
 	Expression Done;
+	bool centerChange = false;
+	bool startChange = false;
 	if (Top.Node.Branch.size() == 3)
 	{
-		TempStart = *Top.Node.Branch.at(0);
-		TempCenter = *Top.Node.Branch.at(1);
+		TempStart = *Top.Node.Branch.at(1);
+		TempCenter = *Top.Node.Branch.at(0);
+		if (TempCenter.Node.type == Symbol)
+		{
+			centerChange = true;
+			TempCenter = ProType(TempCenter);
+		}
+		if (TempStart.Node.type == Symbol)
+		{
+			startChange = true;
+			TempStart = ProType(TempStart);
+		}
 		TempRad = *Top.Node.Branch.at(2);
 		if (TempStart.Node.type == Point && TempCenter.Node.type == Point)
 		{
@@ -1006,18 +1020,19 @@ Expression Environment::EnvArk(Expression Top)
 				TempRad = ProType(TempRad);
 			if (TempRad.Node.type == Value)
 			{
-				TempStart = EnvPoint(TempStart);
-				TempCenter = EnvPoint(TempCenter);
+				if(!startChange)
+					TempStart = EnvPoint(TempStart);
+				if(!centerChange)
+					TempCenter = EnvPoint(TempCenter);
 				Done.Node.type = ARC;
 				Done.Node.Start = TempStart.Node.Start;
 				Done.Node.EndCenter = TempCenter.Node.Start;
 				Done.Node.double_value = TempRad.Node.double_value;
-				DrawMe.push_back(Done);
 			}
 			else
 			{
-				throw InterpreterSemanticError("Error: No angle given for Arc");
 				Done = Error;
+				throw InterpreterSemanticError("Error: No angle given for Arc");
 			}
 		}
 		else
@@ -1039,18 +1054,35 @@ Expression Environment::EnvLine(Expression Top)
 	Expression TempStart;
 	Expression TempEnd;
 	Expression Done;
+	bool startChange = false;
+	bool endChange = false;
 	if (Top.Node.Branch.size() == 2)
 	{
 		TempStart = *Top.Node.Branch.at(0);
 		TempEnd = *Top.Node.Branch.at(1);
+		if (TempStart.Node.type == Symbol)
+		{
+			TempStart = ProType(TempStart);
+			startChange = true;
+		}
+		if (TempEnd.Node.type == Symbol)
+		{
+			TempEnd = ProType(TempEnd);
+			endChange = true;
+		}
 		if (TempStart.Node.type == Point && TempEnd.Node.type == Point)
 		{
-			TempStart = EnvPoint(TempStart);
-			TempEnd = EnvPoint(TempEnd);
+			if (!startChange)
+			{
+				TempStart = EnvPoint(TempStart);
+			}
+			if (!endChange)
+			{
+				TempEnd = EnvPoint(TempEnd);
+			}
 			Done.Node.type = Line;
 			Done.Node.Start = TempStart.Node.Start;
 			Done.Node.EndCenter = TempEnd.Node.Start;
-			DrawMe.push_back(Done);
 		}
 		else
 		{
@@ -1083,7 +1115,6 @@ Expression Environment::EnvPoint(Expression Top)
 		{
 			Done.Node.type = Point;
 			Done.Node.Start = std::tuple<double,double> (TempX.Node.double_value, TempY.Node.double_value);
-			DrawMe.push_back(Done);
 		}
 	}
 	else
@@ -1099,5 +1130,29 @@ Expression Environment::EnvDraw(Expression Top)
 	Expression Done;
 	Done.Node.type = Symbol;
 	Done.Node.string_value = "none";
+	if (Top.Node.Branch.size() == 0)
+	{
+		throw InterpreterSemanticError("Error: No arguments passed into Draw. Please add at least one argument.");
+		Done = Error;
+	}
+	else
+	{
+		Expression Add;
+		for (size_t i = 0; i < Top.Node.Branch.size(); i++)
+		{
+			Add = *Top.Node.Branch.at(i);
+			Add = ProType(Add);
+			if (Add.Node.type == Point || Add.Node.type == Line || Add.Node.type == ARC)
+			{
+				DrawMe.push_back(Add);
+			}
+			else
+			{
+				throw InterpreterSemanticError("Error: trying to draw something that isn't a point, line, or arc");
+				Done = Error;
+				break;
+			}
+		}
+	}
 	return Done;
 }

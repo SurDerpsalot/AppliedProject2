@@ -146,7 +146,6 @@ void TestGUI::testPoint() {
   QVERIFY2(scene->itemAt(QPointF(0, 0), QTransform()) != 0,
            "Expected a point in the scene. Not found.");
 }
-
 void TestGUI::testLine() {
 
   QVERIFY(repl && replEdit);

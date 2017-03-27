@@ -1,7 +1,7 @@
 #include <main_window.hpp>
 
 // Default construct a MainWindow
-MainWindow::MainWindow(QWidget * parent){
+MainWindow::MainWindow(QWidget * parent): QWidget(parent){
 	auto layout = new QVBoxLayout(this);
 	auto message = new MessageWidget;
 	auto canvas = new CanvasWidget;
@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget * parent){
 	connect(REPL, &REPLWidget::lineEntered, interpret, &QtInterpreter::parseAndEvaluate);
 	connect(interpret, &QtInterpreter::info,message, &MessageWidget::info);
 	connect(interpret, &QtInterpreter::error, message, &MessageWidget::error);
+	connect(interpret, &QtInterpreter::drawGraphic, canvas, &CanvasWidget::addGraphic);
 	
 	this->setMinimumSize(800, 600);
 	layout->addWidget(message);

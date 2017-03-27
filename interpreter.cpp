@@ -220,16 +220,18 @@ Expression Interpreter::eval()
 	try {
 		result = Enviro.Operations(*Root);
 		destroyTree(Root);
-		Root = NULL;
 	}
 	catch (InterpreterSemanticError & ERR)
 	{
+		destroyTree(Root);
+		Root = NULL;
 		Expression notgood;
 		notgood.Node.type = Symbol;
-		notgood.Node.string_value = "Error";
+		notgood.Node.string_value = ERR.what();
 		result = notgood;
 		throw ERR;
 	}
+	Root = NULL;
 	
 	return result;
 }
