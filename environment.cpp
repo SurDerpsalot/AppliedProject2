@@ -155,7 +155,6 @@ Expression Environment::EnvDef(Expression Top)
 						else
 						{
 							throw InterpreterSemanticError("Error: Symbol not found in dictionary");
-							temp = Error;
 						}
 					}
 					found = Dictionary.find(target.Node.string_value);
@@ -172,22 +171,17 @@ Expression Environment::EnvDef(Expression Top)
 			}
 			else
 			{
-				temp = Error;
-				throw InterpreterSemanticError("Error: Attempting to assign value to a procedure");
-				
+				throw InterpreterSemanticError("Error: Attempting to assign value to a procedure");				
 			}
 		}
 		else
 		{
-			temp = Error;
-			throw InterpreterSemanticError("Error: 'Define' cannot store into a non-symbol");
-			
+			throw InterpreterSemanticError("Error: 'Define' cannot store into a non-symbol");			
 		}
 	}
 	else
 	{
 		throw InterpreterSemanticError("Error: Not enough arguments in 'Define'");
-		temp = Error;
 	}
 	return temp;
 }
@@ -221,7 +215,6 @@ Expression Environment::EnvIf(Expression Top)
 							else
 							{
 								throw InterpreterSemanticError("Error: Symbol does not exist");
-								temp2 = Error;
 							}
 						}
 						else
@@ -244,7 +237,6 @@ Expression Environment::EnvIf(Expression Top)
 							else
 							{
 								throw InterpreterSemanticError("Error: Symbol does not exist");
-								temp2 = Error;
 							}
 						}
 						else
@@ -259,7 +251,6 @@ Expression Environment::EnvIf(Expression Top)
 			else
 			{
 				throw InterpreterSemanticError("Error: expression1 does not result in a Boolean Atom");
-				temp2 = Error;
 			}
 		}
 		else
@@ -279,7 +270,6 @@ Expression Environment::EnvIf(Expression Top)
 							else
 							{
 								throw InterpreterSemanticError("Error: Symbol does not exist");
-								temp2 = Error;
 							}
 						}
 						else
@@ -302,7 +292,6 @@ Expression Environment::EnvIf(Expression Top)
 							else
 							{
 								throw InterpreterSemanticError("Error: Symbol does not exist");
-								temp2 = Error;
 							}
 						}
 						else
@@ -317,7 +306,6 @@ Expression Environment::EnvIf(Expression Top)
 			else
 			{
 				throw InterpreterSemanticError("Error: expression1 does not resulf in a Boolean Atom");
-				temp2 = Error;
 			}
 		}
 	}
@@ -329,17 +317,11 @@ Expression Environment::NonSpec(Expression Top)
 	Expression temp;
 	if (!checkProcedure(Top))
 	{
-		if (Top.Node.string_value == "-pi")
-		{
-			temp.Node.type = Value;
-			temp.Node.double_value = atan2(0, -1);
-		}
 		found = Dictionary.find(Top.Node.string_value);
 		if (found != Dictionary.end())
 			temp = Dictionary.at(Top.Node.string_value);
 		else
 		{
-			temp = Error;
 			throw InterpreterSemanticError("Error: Symbol not defined");
 		}
 	}
@@ -392,13 +374,11 @@ Expression Environment::EnvNot(Expression Top)
 		else if (Temp.Node.type == Value)
 		{
 			throw InterpreterSemanticError("Error: Values cannot be logically negated");
-			Done = Error;
 		}
 	}
 	else
 	{
 		throw InterpreterSemanticError("Error: Too many/too few arguments for 'not' procedure");
-		Done = Error;
 	}
 	return Done;
 }
@@ -416,7 +396,6 @@ Expression Environment::EnvMinus(Expression Top)
 		if (Ex1.Node.type == Bool)
 		{
 			throw InterpreterSemanticError("Error: Cannot make a bool negative in this procedure");
-			done = Error;
 		}
 		else if (Ex1.Node.type == Value)
 		{
@@ -435,14 +414,12 @@ Expression Environment::EnvMinus(Expression Top)
 		if (Ex1.Node.type == Bool)
 		{
 			throw InterpreterSemanticError("Error: Cannot subtract bools");
-			done = Error;
 		}
 		else if (Ex1.Node.type == Value)
 		{
 			if (Ex2.Node.type == Bool)
 			{
 				throw InterpreterSemanticError("Error: Cannot subtract bools");
-				done =  Error;
 			}
 			else if (Ex2.Node.type == Value)
 			{
@@ -453,7 +430,6 @@ Expression Environment::EnvMinus(Expression Top)
 	else
 	{
 		throw InterpreterSemanticError("Error: Too many arguments");
-		done = Error;
 	}
 	return done;
 }
@@ -472,7 +448,6 @@ Expression Environment::EnvMult(Expression Top)
 		if (Ex1.Node.type == Bool)
 		{
 			throw InterpreterSemanticError("Error: cannot multiply a Bool");
-			Product = Error;
 		}
 		else if (Ex1.Node.type == Value)
 		{
@@ -490,7 +465,6 @@ Expression Environment::EnvAnd(Expression Top)
 	if (Top.Node.Branch.size() < 2)
 	{
 		throw InterpreterSemanticError("Error: To few arguments. Must have a minimum of two");
-		Final = Error;
 	}
 	Ex1 = *Top.Node.Branch.at(0);
 	for (size_t i = 1; i < Top.Node.Branch.size(); i++)
@@ -503,14 +477,12 @@ Expression Environment::EnvAnd(Expression Top)
 		if (Ex1.Node.type == Value)
 		{
 			throw InterpreterSemanticError("Error: Doesn't accept number arguments");
-			Final = Error;
 		}
 		else if (Ex1.Node.type == Bool)
 		{
 			if (Ex2.Node.type == Value)
 			{
 				throw InterpreterSemanticError("Error: Doesn't accept number arguments");
-				Final = Error;
 			}
 			else if (Ex2.Node.type == Bool)
 				Final.Node.bool_value = Ex2.Node.bool_value && Ex2.Node.bool_value && Final.Node.bool_value;
@@ -527,7 +499,6 @@ Expression Environment::EnvOr(Expression Top)
 	if (Top.Node.Branch.size() < 2)
 	{
 		throw InterpreterSemanticError("Error: To few arguments. Must have a minimum of two");
-		return Error;
 	}
 	Ex1 = *Top.Node.Branch.at(0);
 	for (size_t i = 1; i < Top.Node.Branch.size(); i++)
@@ -540,14 +511,12 @@ Expression Environment::EnvOr(Expression Top)
 		if (Ex1.Node.type == Value)
 		{
 			throw InterpreterSemanticError("Error: Doesn't accept number arguments");
-			return Error;
 		}
 		else if (Ex1.Node.type == Bool)
 		{
 			if (Ex2.Node.type == Value)
 			{
 				throw InterpreterSemanticError("Error: Doesn't accept number arguments");
-				return Error;
 			}
 			else if (Ex2.Node.type == Bool)
 				Final.Node.bool_value = Ex2.Node.bool_value || Ex2.Node.bool_value || Final.Node.bool_value;
@@ -573,7 +542,6 @@ Expression Environment::EnvAdd(Expression Top)
 			if (Ex2.Node.type == Bool)
 			{
 				throw InterpreterSemanticError("Error: cannot add a Bool");
-				return Error;
 			}
 			else if (Ex2.Node.type == Value)
 			{
@@ -591,12 +559,10 @@ Expression Environment::EnvLes(Expression Top)
 	if (Top.Node.Branch.size() < 2)
 	{
 		throw InterpreterSemanticError("Error: To few Arguments");
-		return Error;
 	}
 	else if (Top.Node.Branch.size() >2)
 	{
 		throw InterpreterSemanticError("Error: To many Arugments");
-		return Error;
 	}
 	else
 	{
@@ -609,14 +575,12 @@ Expression Environment::EnvLes(Expression Top)
 		if (Ex1.Node.type == Bool)
 		{
 			throw InterpreterSemanticError("Error: Cannot accept Boolean Arguments");
-			return Error;
 		}
 		else if (Ex1.Node.type == Value)
 		{
 			if (Ex2.Node.type == Bool)
 			{
 				throw InterpreterSemanticError("Error: Cannot accept Boolean Arguments");
-				return Error;
 			}
 			else if (Ex2.Node.type == Value)
 			{
@@ -630,11 +594,10 @@ Expression Environment::EnvLes(Expression Top)
 					done.Node.bool_value = false;
 					done.Node.type = Bool;
 				}
-				return done;
 			}
 		}
 	}
-	return Error;
+	return done;
 }
 
 Expression Environment::EnvLeq(Expression Top)
@@ -645,12 +608,10 @@ Expression Environment::EnvLeq(Expression Top)
 	if (Top.Node.Branch.size() < 2)
 	{
 		throw InterpreterSemanticError("Error: To few Arguments");
-		return Error;
 	}
 	else if (Top.Node.Branch.size() >2)
 	{
 		throw InterpreterSemanticError("Error: To many Arugments");
-		return Error;
 	}
 	else
 	{
@@ -663,14 +624,12 @@ Expression Environment::EnvLeq(Expression Top)
 		if (Ex1.Node.type == Bool)
 		{
 			throw InterpreterSemanticError("Error: Cannot accept Boolean Arguments");
-			return Error;
 		}
 		else if (Ex1.Node.type == Value)
 		{
 			if (Ex2.Node.type == Bool)
 			{
 				throw InterpreterSemanticError("Error: Cannot accept Boolean Arguments");
-				return Error;
 			}
 			else if (Ex2.Node.type == Value)
 			{
@@ -689,11 +648,10 @@ Expression Environment::EnvLeq(Expression Top)
 					done.Node.bool_value = false;
 					done.Node.type = Bool;
 				}
-				return done;
 			}
 		}
 	}
-	return Error;
+	return done;
 }
 
 Expression Environment::EnvGrt(Expression Top)
@@ -704,12 +662,10 @@ Expression Environment::EnvGrt(Expression Top)
 	if (Top.Node.Branch.size() < 2)
 	{
 		throw InterpreterSemanticError("Error: To few Arguments");
-		return Error;
 	}
 	else if (Top.Node.Branch.size() >2)
 	{
 		throw InterpreterSemanticError("Error: To many Arugments");
-		return Error;
 	}
 	else
 	{
@@ -722,14 +678,12 @@ Expression Environment::EnvGrt(Expression Top)
 		if (Ex1.Node.type == Bool)
 		{
 			throw InterpreterSemanticError("Error: Cannot accept Boolean Arguments");
-			return Error;
 		}
 		else if (Ex1.Node.type == Value)
 		{
 			if (Ex2.Node.type == Bool)
 			{
 				throw InterpreterSemanticError("Error: Cannot accept Boolean Arguments");
-				return Error;
 			}
 			else if (Ex2.Node.type == Value)
 			{
@@ -743,11 +697,10 @@ Expression Environment::EnvGrt(Expression Top)
 					done.Node.bool_value = true;
 					done.Node.type = Bool;
 				}
-				return done;
 			}
 		}
 	}
-	return Error;
+	return done;
 }
 
 Expression Environment::EnvGeq(Expression Top)
@@ -758,12 +711,10 @@ Expression Environment::EnvGeq(Expression Top)
 	if (Top.Node.Branch.size() < 2)
 	{
 		throw InterpreterSemanticError("Error: To few Arguments");
-		return Error;
 	}
 	else if (Top.Node.Branch.size() >2)
 	{
 		throw InterpreterSemanticError("Error: To many Arugments");
-		return Error;
 	}
 	else
 	{
@@ -776,14 +727,12 @@ Expression Environment::EnvGeq(Expression Top)
 		if (Ex1.Node.type == Bool)
 		{
 			throw InterpreterSemanticError("Error: Cannot accept Boolean Arguments");
-			return Error;
 		}
 		else if (Ex1.Node.type == Value)
 		{
 			if (Ex2.Node.type == Bool)
 			{
 				throw InterpreterSemanticError("Error: Cannot accept Boolean Arguments");
-				return Error;
 			}
 			else if (Ex2.Node.type == Value)
 			{
@@ -802,11 +751,10 @@ Expression Environment::EnvGeq(Expression Top)
 					done.Node.bool_value = false;
 					done.Node.type = Bool;
 				}
-				return done;
 			}
 		}
 	}
-	return Error;
+	return done;
 }
 
 Expression Environment::EnvEq(Expression Top)
@@ -817,12 +765,10 @@ Expression Environment::EnvEq(Expression Top)
 	if (Top.Node.Branch.size() < 2)
 	{
 		throw InterpreterSemanticError("Error: To few Arguments");
-		return Error;
 	}
 	else if (Top.Node.Branch.size() >2)
 	{
 		throw InterpreterSemanticError("Error: To many Arugments");
-		return Error;
 	}
 	else
 	{
@@ -835,14 +781,12 @@ Expression Environment::EnvEq(Expression Top)
 		if (Ex1.Node.type == Bool)
 		{
 			throw InterpreterSemanticError("Error: Cannot accept Boolean Arguments");
-			return Error;
 		}
 		else if (Ex1.Node.type == Value)
 		{
 			if (Ex2.Node.type == Bool)
 			{
 				throw InterpreterSemanticError("Error: Cannot accept Boolean Arguments");
-				return Error;
 			}
 			else if (Ex2.Node.type == Value)
 			{
@@ -856,11 +800,10 @@ Expression Environment::EnvEq(Expression Top)
 					done.Node.bool_value = false;
 					done.Node.type = Bool;
 				}
-				return done;
 			}
 		}
 	}
-	return Error;
+	return done;
 }
 
 Expression Environment::EnvDiv(Expression Top)
@@ -879,28 +822,24 @@ Expression Environment::EnvDiv(Expression Top)
 		if (Ex1.Node.type == Bool)
 		{
 			throw InterpreterSemanticError("Error: Cannot divide bools");
-			return Error;
 		}
 		else if (Ex1.Node.type == Value)
 		{
 			if (Ex2.Node.type == Bool)
 			{
 				throw InterpreterSemanticError("Error: Cannot divide bools");
-				return Error;
 			}
 			else if (Ex2.Node.type == Value)
 			{
 				done = Ex1.Node.double_value / Ex2.Node.double_value;
-				return done;
 			}
 		}
 	}
 	else
 	{
 		throw InterpreterSemanticError("Error: Too few/Too many arguments");
-		return Error;
 	}
-	return Error;
+	return done;
 }
 
 Expression Environment::EnvSin(Expression Top)
@@ -920,13 +859,11 @@ Expression Environment::EnvSin(Expression Top)
 		else
 		{
 			throw InterpreterSemanticError("Error: Only Values can be passed into the sin function");
-			Done = Error;
 		}
 	}
 	else
 	{
 		throw InterpreterSemanticError("Error: Incorrect number of arguments for the sin function.");
-		Done = Error;
 	}
 	return Done;
 }
@@ -948,13 +885,11 @@ Expression Environment::EnvCos(Expression Top)
 		else
 		{
 			throw InterpreterSemanticError("Error: Only Values can be passed into the cos function");
-			Done = Error;
 		}
 	}
 	else
 	{
 		throw InterpreterSemanticError("Error: Incorrect number of arguments for the cos function.");
-		Done = Error;
 	}
 	return Done;
 }
@@ -982,13 +917,11 @@ Expression Environment::EnvArctan(Expression Top)
 		else
 		{
 			throw InterpreterSemanticError("Error: Only Values can be passed into the arctan function");
-			Done = Error;
 		}
 	}
 	else
 	{
 		throw InterpreterSemanticError("Error: Incorrect number of arguments for the arctan function.");
-		Done = Error;
 	}
 	return Done;
 }
@@ -1033,7 +966,6 @@ Expression Environment::EnvArk(Expression Top)
 			}
 			else
 			{
-				Done = Error;
 				throw InterpreterSemanticError("Error: No angle given for Arc");
 			}
 		}
@@ -1089,7 +1021,6 @@ Expression Environment::EnvLine(Expression Top)
 		else
 		{
 			throw InterpreterSemanticError("Error: Start or End points were not provided.");
-			Done = Error;
 		}
 	}
 	else
@@ -1122,7 +1053,6 @@ Expression Environment::EnvPoint(Expression Top)
 	else
 	{
 		throw InterpreterSemanticError("Error: Incorrect number of arguments for Point Creation.");
-		Done = Error;
 	}
 	return Done;
 }
@@ -1135,7 +1065,6 @@ Expression Environment::EnvDraw(Expression Top)
 	if (Top.Node.Branch.size() == 0)
 	{
 		throw InterpreterSemanticError("Error: No arguments passed into Draw. Please add at least one argument.");
-		Done = Error;
 	}
 	else
 	{
@@ -1151,8 +1080,6 @@ Expression Environment::EnvDraw(Expression Top)
 			else
 			{
 				throw InterpreterSemanticError("Error: trying to draw something that isn't a point, line, or arc");
-				Done = Error;
-				break;
 			}
 		}
 	}

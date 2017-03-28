@@ -33,18 +33,24 @@ TEST_CASE("Test the Expression overload", "[Expression]")
 {
 	std::string pass;
 	pass = "false";
+	std::tuple<double, double> num(1,1);
 	Expression d;
 	Expression e(4.0);
 	Expression f(3);
 	Expression g(true);
 	Expression h(pass);
 	Expression i(4);
+	Expression j(num);
+	Expression k(num, num);
+	Expression l(num, num, 3);
 	REQUIRE((d == e) == false);
 	REQUIRE((e == f) == false);
 	REQUIRE((e == g) == false);
 	REQUIRE((e == h) == false);
 	REQUIRE((g == h) == false);
 	REQUIRE((e == i) == true);
+	REQUIRE((j == k) == false);
+	REQUIRE((j == l) == false);
 }
 
 TEST_CASE("Test Interpreter parser with a truncated input", "[interpreter]") {
@@ -171,7 +177,7 @@ TEST_CASE("Test begin", "[environment]")
 {
 	Interpreter Interp;
 	Expression output;
-	std::string in = "(begin (define a 42) (if (< 1 2) 13 14))";
+	std::string in = "(begin (define a 42) (define b 10) (if (< 1 2) a b) (if True a b) (if (> 1 2) a b) (if False a b) (if (< 1 2) 13 (+ 1 1)))";
 	std::istringstream input(in);
 	Interp.parse(input);
 	output = Interp.eval();

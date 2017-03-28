@@ -230,6 +230,12 @@ TEST_CASE( "Test Interpreter special forms: begin and define", "[interpreter]" )
   }
 
   {
+	  std::string program = "(begin (define answer 4) (define answer 42))";
+	  Expression result = run(program);
+	  REQUIRE(result == Expression(42));
+  }
+
+  {
     std::string program = "(begin (define answer 42)\n(answer))";
     Expression result = run(program);
     REQUIRE(result == Expression(42.));
@@ -350,10 +356,17 @@ TEST_CASE( "Test trig procedures", "[interpreter]" ) {
 
 TEST_CASE( "Test some semantically invalid expresions", "[interpreter]" ) {
   
-  std::vector<std::string> programs = {"(@ none)", // so such procedure
-				       "(- 1 1 2)", // too many arguments
-				       "(define if 1)", // redefine special form
-				       "(define pi 3.14)"}; // redefine builtin symbol
+	std::vector<std::string> programs = { "(@ none)", // so such procedure
+						 "(- 1 1 2)", // too many arguments
+						 "(define if 1)", // redefine special form
+						 "(define pi 3.14)",//redefine builtin symbol
+						 "(if (< 1 2) a b)",
+						 "(define a b)",
+						 "(if (+-pi 1) 2 2)",
+		"(define 10 10)", "(define a)", "(if True a b)", "(if True b 3)", "(if False 10 b)" , "(if (+ 2 1) 10 20)",
+	  "(not 10)",  "(not 20 30 40)", "(- True)" , "(- (< 1 2) 2)" , "(- 3 (< 1 2))" , "(* 3 (< 2 3))","(and True)",
+	  "(and 10 True)", "(and True 10)", "(or True)", "(or (+ 0 2) True)", "(or True (+ 0 2))", "(+ 3 True)"	,"(< True)", "(< True True True)",
+	"(< True 3)", "(< 3 True)", "(<= 3 3 3)", "(<= 3)", "(<= (or True True) 1)", "(<= 2 (or True True))", "(> 1 2 3)", "(> 2)"};
     for(auto s : programs){
       Interpreter interp;
 
