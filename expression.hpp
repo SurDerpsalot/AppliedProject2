@@ -4,6 +4,10 @@
 #include <string>
 #include <iostream>
 #include <tuple>
+#include <math.h>
+#include <limits>
+#include <cmath>
+
 enum AtomType { None, Bool, Symbol, Value, Point, Line, ARC };
 
 class Expression{

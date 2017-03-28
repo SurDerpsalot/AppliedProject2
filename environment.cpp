@@ -972,10 +972,12 @@ Expression Environment::EnvArctan(Expression Top)
 			tempYval = ProType(tempYval);
 		if (tempXval.Node.type == Symbol)
 			tempXval= ProType(tempXval);
-		if (tempYval.Node.type == Value)
+		if (tempXval.Node.type == Bool || tempYval.Node.type == Bool)
+			throw InterpreterSemanticError("Error: Bools cannot be passed into the ArcTan function");
+		if (tempYval.Node.type == Value && tempXval.Node.type == Value)
 		{
-			Done = tempYval;
-			Done.Node.double_value = atan2(tempYval.Node.double_value,tempXval.Node.double_value);
+				Done = tempYval;
+				Done.Node.double_value = atan2(tempYval.Node.double_value, tempXval.Node.double_value);
 		}
 		else
 		{

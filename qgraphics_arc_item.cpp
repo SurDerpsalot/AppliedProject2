@@ -4,7 +4,9 @@ QGraphicsArcItem::QGraphicsArcItem(double xd, double yd, double length,QRectF re
 	spanAngle = span *(180 / (atan2(0, -1))) * 16;
 	startAngle = asin(yd / length) * 16 * (180/(atan2(0,-1)));
 	if (xd < 0)
-		startAngle = startAngle*-1;
+		spanAngle = spanAngle*-1;
+	if (yd < 0)
+		startAngle = -startAngle;
 	rectangle = rectan;
 	this->setStartAngle(startAngle);
 	this->setSpanAngle(spanAngle);

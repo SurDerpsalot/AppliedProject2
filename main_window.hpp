@@ -9,6 +9,8 @@
 #include <repl_widget.hpp>
 #include <QVBoxLayout>
 #include <qt_interpreter.hpp>
+#include <QFile>
+#include <QTextStream>
 
 class MainWindow : public QWidget {
 	Q_OBJECT

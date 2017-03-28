@@ -7,7 +7,7 @@ CanvasWidget::CanvasWidget(QWidget * parent):QWidget(parent) {
 	
 	QHBoxLayout* layout = new QHBoxLayout(this);
 	canvas->setScene(scene);
-	canvas->setSceneRect(-400, -250, 800, 500);
+	canvas->setSceneRect(-300, -200, 600, 400);
 	layout->addWidget(canvas);
 	setLayout(layout);
 

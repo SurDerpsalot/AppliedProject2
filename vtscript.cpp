@@ -48,7 +48,7 @@ int main(int argc, char*argv[])
 			catch (InterpreterSemanticError & ERR)
 			{
 				output = Error;
-				cout << "Error" << std::endl;
+				cout << ERR.what() << std::endl;
 				Interp.resetEnviro();
 			}
 			Output = EXIT_SUCCESS;
@@ -60,13 +60,18 @@ int main(int argc, char*argv[])
 		Interpreter Interp;
 		Expression output;
 		std::istringstream TokenStream(input);
-		Interp.parse(TokenStream);
+		bool worked = Interp.parse(TokenStream);
+		if (!worked)
+		{
+			cout << "Error: Input failed to parse" << std::endl;
+			return EXIT_FAILURE;
+		}
 		try {
 			output = Interp.eval();
 		}
 		catch (InterpreterSemanticError & ERR)
 		{
-			cout << "Error" << std::endl;
+			cout << ERR.what() << std::endl;
 			Output = EXIT_FAILURE;
 			return Output;
 		}

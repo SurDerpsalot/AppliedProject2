@@ -38,11 +38,13 @@ TEST_CASE("Test the Expression overload", "[Expression]")
 	Expression f(3);
 	Expression g(true);
 	Expression h(pass);
+	Expression i(4);
 	REQUIRE((d == e) == false);
-	REQUIRE((e == f) == true);
+	REQUIRE((e == f) == false);
 	REQUIRE((e == g) == false);
 	REQUIRE((e == h) == false);
 	REQUIRE((g == h) == false);
+	REQUIRE((e == i) == true);
 }
 
 TEST_CASE("Test Interpreter parser with a truncated input", "[interpreter]") {

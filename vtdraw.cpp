@@ -1,16 +1,24 @@
 #include <QApplication>
 #include <main_window.hpp>
-#include <QGraphicsScene>
-#include <QGraphicsView>
+#include <iostream>
 
 
 int main(int argc, char*argv[])
 {
 	QApplication app(argc, argv);
-
-	MainWindow window;
-
-	window.show();
-
-	return app.exec();
+	if (argc == 1)
+	{
+		MainWindow window;
+		window.show();
+		return app.exec();
+	}
+	else if (argc == 2)
+	{
+		std::string filename = argv[1];
+		MainWindow window(filename);
+		window.show();
+		return app.exec();
+	}
+	else
+		return EXIT_FAILURE;
 }

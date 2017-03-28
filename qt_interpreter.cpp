@@ -27,7 +27,6 @@ void QtInterpreter::parseAndEvaluate(QString entry) {
 		}
 		catch (InterpreterSemanticError &ERR)
 		{
-			std::cout << "checker" << std::endl;
 			out = ERR.what();
 			emit error(out);
 		}
@@ -92,7 +91,7 @@ void QtInterpreter::draw()
 		}
 		else if (DrawingItem.Node.type == ARC)
 		{
-			double xd, x2, y1, yd, span,length;
+			double xd, yd, span,length;
 			xd = std::get<0>(DrawingItem.Node.Start) - std::get<0>(DrawingItem.Node.EndCenter);
 			yd = std::get<1>(DrawingItem.Node.Start) - std::get<1>(DrawingItem.Node.EndCenter);
 			
