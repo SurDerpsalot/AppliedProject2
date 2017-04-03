@@ -62,7 +62,7 @@ TEST_CASE( "Test Interpreter parser with expected input", "[interpreter]" ) {
 
 TEST_CASE( "Test Interpreter parser with numerical literals", "[interpreter]" ) {
 
-  std::vector<std::string> programs = {"(1)", "(+1)", "(+1e+0)", "(1e-0)"};
+  std::vector<std::string> programs = {"(1)", "(+1)", "(+1e0)", "(1e0)"};
   
   for(auto program : programs){
     std::istringstream iss(program);
@@ -420,7 +420,7 @@ TEST_CASE( "Test file tests/test0.vts", "[interpreter]" ) {
   Interpreter interp;
     
   bool ok = interp.parse(ifs);
-  REQUIRE(ok == false);
+  REQUIRE(!ok);
 }
 
 TEST_CASE( "Test syntactically correct file using CRLF (Windows) line endings.", "[interpreter]" ) {
@@ -445,7 +445,7 @@ TEST_CASE( "Test syntactically INCORRECT files", "[interpreter]" ) {
   Interpreter interp;
     
   bool ok = interp.parse(ifs);
-  REQUIRE(ok == false);
+  REQUIRE(!ok);
 }
 
 TEST_CASE( "Test all syntactically and semantically CORRECT files.", "[interpreter]" ) {

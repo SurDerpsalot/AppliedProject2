@@ -137,6 +137,8 @@ bool Interpreter::BuildTree(std::vector<token> ParsedData, size_t & i, Expressio
 			currentLevel->Node.Branch.push_back(NewNode);
 		}
 	}
+	//delete currentLevel;
+	//currentLevel = nullptr;
 	return true;
 }
 

@@ -194,123 +194,59 @@ Expression Environment::EnvIf(Expression Top)
 	Expression temp;
 	Expression temp2;
 	std::map<std::string, Expression>::iterator found;
-	if (Top.Node.Branch.size() == 3)
-	{
+	if (Top.Node.Branch.size() == 3) {
 		boolExpress = *Top.Node.Branch.at(0);
 		ex1 = *Top.Node.Branch.at(1);
 		ex2 = *Top.Node.Branch.at(2);
-		if (!checkProcedure(boolExpress))
-		{
-			if (boolExpress.Node.type == Bool)
-			{
-				if (boolExpress.Node.bool_value)
-				{
-					if (!checkProcedure(ex1))
-					{
-						if (ex1.Node.type == Symbol)
-						{
+		if (!checkProcedure(boolExpress))	{
+			if (boolExpress.Node.type == Bool)	{
+				if (boolExpress.Node.bool_value)  {
+					if (!checkProcedure(ex1)) {
+						if (ex1.Node.type == Symbol) {
 							found = Dictionary.find(ex1.Node.string_value);
 							if (found != Dictionary.end())
 								temp2 = Dictionary.at(ex1.Node.string_value);
-							else
-							{
-								throw InterpreterSemanticError("Error: Symbol does not exist");
-							}
-						}
+							else {throw InterpreterSemanticError("Error: Symbol does not exist");} }
 						else
-							temp2 = ex1;
-					}
-					else
-					{
-						temp2 = ProType(ex1);
-					}
-				}
-				else
-				{
-					if (!checkProcedure(ex2))
-					{
-						if (ex2.Node.type == Symbol)
-						{
+							temp2 = ex1; }
+					else {
+						temp2 = ProType(ex1);}	}
+				else{
+					if (!checkProcedure(ex2)){
+						if (ex2.Node.type == Symbol){
 							found = Dictionary.find(ex2.Node.string_value);
 							if (found != Dictionary.end())
 								temp2 = Dictionary.at(ex2.Node.string_value);
-							else
-							{
-								throw InterpreterSemanticError("Error: Symbol does not exist");
-							}
-						}
+							else{throw InterpreterSemanticError("Error: Symbol does not exist");}	}
 						else
-							temp2 = ex2;
-					}
-					else
-					{
-						temp2 = ProType(ex2);
-					}
-				}
-			}
-			else
-			{
-				throw InterpreterSemanticError("Error: expression1 does not result in a Boolean Atom");
-			}
-		}
-		else
-		{
+							temp2 = ex2;	}
+					else{
+						temp2 = ProType(ex2);}	} }
+			else{throw InterpreterSemanticError("Error: expression1 does not result in a Boolean Atom");} }
+		else{
 			temp = ProType(boolExpress);
-			if (temp.Node.type == Bool)
-			{
-				if (temp.Node.bool_value)
-				{
-					if (!checkProcedure(ex1))
-					{
-						if (ex1.Node.type == Symbol)
-						{
+			if (temp.Node.type == Bool)	{
+				if (temp.Node.bool_value)  {
+					if (!checkProcedure(ex1))	{
+						if (ex1.Node.type == Symbol){
 							found = Dictionary.find(ex1.Node.string_value);
 							if (found != Dictionary.end())
 								temp2 = Dictionary.at(ex1.Node.string_value);
-							else
-							{
-								throw InterpreterSemanticError("Error: Symbol does not exist");
-							}
-						}
+							else{throw InterpreterSemanticError("Error: Symbol does not exist");} }
 						else
-							temp2 = ex1;
-					}
-					else
-					{
-						temp2 = ProType(ex1);
-					}
-				}
-				else
-				{
-					if (!checkProcedure(ex2))
-					{
-						if (ex2.Node.type == Symbol)
-						{
+							temp2 = ex1; }
+					else{temp2 = ProType(ex1); }	}
+				else{if (!checkProcedure(ex2)){
+						if (ex2.Node.type == Symbol){
 							found = Dictionary.find(ex2.Node.string_value);
 							if (found != Dictionary.end())
 								temp2 = Dictionary.at(ex2.Node.string_value);
-							else
-							{
-								throw InterpreterSemanticError("Error: Symbol does not exist");
-							}
-						}
+							else{throw InterpreterSemanticError("Error: Symbol does not exist");}	}
 						else
-							temp2 = ex2;
-					}
-					else
-					{
-						temp2 = ProType(ex2);
-					}
-				}
-			}
-			else
-			{
-				throw InterpreterSemanticError("Error: expression1 does not resulf in a Boolean Atom");
-			}
-		}
-	}
-	return temp2;
-}
+							temp2 = ex2;	}
+					else{temp2 = ProType(ex2);	}  	} }
+			else{throw InterpreterSemanticError("Error: expression1 does not resulf in a Boolean Atom");}	 } }
+	return temp2;}
 
 Expression Environment::NonSpec(Expression Top)
 {
@@ -955,10 +891,12 @@ Expression Environment::EnvArk(Expression Top)
 				TempRad = ProType(TempRad);
 			if (TempRad.Node.type == Value)
 			{
-				if(!startChange)
+				if (!startChange) {
 					TempStart = EnvPoint(TempStart);
-				if(!centerChange)
+				}
+				if (!centerChange) {
 					TempCenter = EnvPoint(TempCenter);
+				}
 				Done.Node.type = ARC;
 				Done.Node.Start = TempStart.Node.Start;
 				Done.Node.EndCenter = TempCenter.Node.Start;

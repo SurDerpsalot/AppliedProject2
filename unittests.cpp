@@ -43,14 +43,14 @@ TEST_CASE("Test the Expression overload", "[Expression]")
 	Expression j(num);
 	Expression k(num, num);
 	Expression l(num, num, 3);
-	REQUIRE((d == e) == false);
-	REQUIRE((e == f) == false);
-	REQUIRE((e == g) == false);
-	REQUIRE((e == h) == false);
-	REQUIRE((g == h) == false);
-	REQUIRE((e == i) == true);
-	REQUIRE((j == k) == false);
-	REQUIRE((j == l) == false);
+	REQUIRE(!(d == e));
+	REQUIRE(!(e == f));
+	REQUIRE(!(e == g));
+	REQUIRE(!(e == h));
+	REQUIRE(!(g == h));
+	REQUIRE((e == i));
+	REQUIRE(!(j == k));
+	REQUIRE(!(j == l));
 }
 
 TEST_CASE("Test Interpreter parser with a truncated input", "[interpreter]") {

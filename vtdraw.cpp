@@ -12,13 +12,12 @@ int main(int argc, char*argv[])
 		window.show();
 		return app.exec();
 	}
-	else if (argc == 2)
+	if (argc == 2)
 	{
 		std::string filename = argv[1];
 		MainWindow window(filename);
 		window.show();
 		return app.exec();
 	}
-	else
 		return EXIT_FAILURE;
 }

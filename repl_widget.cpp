@@ -22,24 +22,23 @@ void REPLWidget::keyPressEvent(QKeyEvent * event) {
 	else if (event->key() == Qt::Key_Up) {
 		if (Index != 0)
 		{
-			REPL->clear();
 			Index = Index - 1;
+			REPL->clear();
 			QString insert = History.at(Index);
 			REPL->setText(insert);
 		}
 		
 	}
 	else if (event->key() == Qt::Key_Down) {
-		if (Index != History.size())
-		{
+		Index = Index + 1;
+		if (Index >= History.size()) {
+			Index = History.size();
+			REPL->clear();
+		}
+		else{
 			REPL->clear();
 			QString insert = History.at(Index);
-			Index = Index + 1;
 			REPL->setText(insert);
-		}
-		else
-		{
-			REPL->clear();
 		}
 	}
 }
