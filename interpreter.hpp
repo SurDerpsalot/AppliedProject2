@@ -8,6 +8,7 @@ class Interpreter {
 public:
 	// Default construct an Interpreter with the default environment and an empty AST
 	Interpreter();
+	~Interpreter();
 	void destroyTree(Expression * curLevel);
 
 	// Given a vtscript program as a std::istream, attempt to parse into an internal AST

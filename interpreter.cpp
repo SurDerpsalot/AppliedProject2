@@ -7,6 +7,10 @@ Interpreter::Interpreter()
 	Root = NULL;
 }
 
+Interpreter::~Interpreter() {
+	destroyTree(Root);
+}
+
 bool Interpreter::parse(std::istream & input) noexcept
 {
 	token UnformattedLine = "";
