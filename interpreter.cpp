@@ -114,8 +114,8 @@ bool Interpreter::BuildTree(std::vector<token> ParsedData, size_t & i, Expressio
 		else
 		{
 			StoreNum(ParsedData.at(i + 1), Root);
-			//Root->Node.type = Symbol;
-			//Root->Node.string_value = ParsedData.at(i + 1);
+			//Root->Node.type = Symbol;//
+			//Root->Node.string_value = ParsedData.at(i + 1);//
 		}
 		i = i + 2;
 		currentLevel = Root;
